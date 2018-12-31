@@ -1,6 +1,5 @@
 package net.runelite.client.plugins.zulrah;
 
-import com.google.common.eventbus.Subscribe;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
 import net.runelite.api.NPC;
@@ -8,6 +7,7 @@ import net.runelite.api.NpcID;
 import net.runelite.api.events.GameTick;
 import net.runelite.api.events.NpcDespawned;
 import net.runelite.api.events.NpcSpawned;
+import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
@@ -70,7 +70,7 @@ public class ZulrahPlugin extends Plugin
 
 	// Set the Zulrah object
 	@Subscribe
-	public void zulrahVisible(NpcSpawned event)
+	public void onNpcSpawned(final NpcSpawned event)
 	{
 		npc = event.getNpc();
 		if (isNpcZulrah(npc.getId()))
@@ -83,7 +83,7 @@ public class ZulrahPlugin extends Plugin
 
 	// When Zulrah despawns
 	@Subscribe
-	public void zulrahDespawn(NpcDespawned event)
+	public void onNpcDespawned(final NpcDespawned event)
 	{
 		npc = event.getNpc();
 		if (isNpcZulrah(npc.getId()))
@@ -154,7 +154,7 @@ public class ZulrahPlugin extends Plugin
 
 	// Keep checking Zulrah to determine the rotation / style change
 	@Subscribe
-	public void checkZulrah(GameTick onTick)
+	public void onGameTick (final GameTick onTick)
 	{
 		if (zulrahHasSpawned && zulrahExists) // Make sure that Zulrah exists in the first place
 		{
